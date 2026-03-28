@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+.env.*.local
+.vscode/
+
+# Build outputs
+build/
+coverage/
+
+# Misc
+.DS_Store
+*.pem
