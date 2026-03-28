@@ -3,72 +3,98 @@ import './DashboardPage.css';
 
 const DashboardPage: React.FC = () => {
   const stats = [
-    { label: 'Total Agents', value: '1,280', icon: 'bi-people', color: '#1e3a8a' },
-    { label: 'Properties', value: '428', icon: 'bi-building', color: '#059669' },
-    { label: 'Inspections', value: '85', icon: 'bi-search', color: '#ea580c' },
-    { label: 'Total Revenue', value: '$24.5k', icon: 'bi-currency-dollar', color: '#7c3aed' }
+    { label: 'Total Clients', value: '200', icon: 'bi-graph-up', color: '#22c55e', bgColor: '#f0fdf4' },
+    { label: 'Total Properties', value: '10', icon: 'bi-graph-up', color: '#22c55e', bgColor: '#f0fdf4' },
+    { label: 'Total Inspections', value: '2', icon: 'bi-graph-down', color: '#ef4444', bgColor: '#fef2f2' },
+    { label: 'Pending Inspections', value: '2', icon: 'bi-bar-chart-line', color: '#eab308', bgColor: '#fefce8' },
+    { label: 'Closed Inspections', value: '10', icon: 'bi-clipboard-data', color: '#eab308', bgColor: '#fefce8' }
+  ];
+
+  const quickActions = [
+    { label: 'Create Inspection', icon: 'bi-pencil-square' },
+    { label: 'Add Property', icon: 'bi-plus-lg' },
+    { label: 'Add Agent', icon: 'bi-plus-lg' },
+    { label: 'Add Inspector', icon: 'bi-plus-lg' }
   ];
 
   const recentActivity = [
-    { title: 'New Agent Added', description: 'Agent Michael joined the team', time: '2 mins ago' },
-    { title: 'Property Inspection', description: 'Inspection completed for Bluenest Reality', time: '1 hour ago' },
-    { title: 'Agent Updated', description: 'Sophie updated her profile info', time: '3 hours ago' },
-    { title: 'Audit Log', description: 'Admin Dinesh Karthick updated settings', time: '5 hours ago' }
+    { id: 'INSP - 10245', property: 'Greenview apartme...', agent: 'Bluenest reality', inspector: 'John mathews', status: 'Pending', time: '2 mins ago', action: 'View', badgeClass: 'badge-pending' },
+    { id: 'INSP - 10244', property: 'Palm residency - Villa', agent: 'Urbankey estates', inspector: 'Sarah collins', status: 'Assigned', time: '1 hour ago', action: 'View', badgeClass: 'badge-assigned' },
+    { id: 'INSP - 10243', property: 'Lakeview towers', agent: 'Bluenest reality', inspector: 'Mark robinson', status: 'Active', time: 'Today, 11.30 AM', action: 'View', badgeClass: 'badge-active' },
+    { id: 'INSP - 10242', property: 'Maple street house', agent: 'Primelet agents', inspector: 'Emma watson', status: 'Completed', time: '2 days ago', action: 'View Report', badgeClass: 'badge-completed' },
+    { id: 'INSP - 10243', property: 'Sunrise commercial complex', agent: 'Urbankey estates', inspector: 'David lee', status: 'Closed', time: '3 days ago', action: 'View', badgeClass: 'badge-closed' },
+    { id: 'INSP - 10242', property: 'Oakwood cottage', agent: 'Primelet agents', inspector: 'Emma watson', status: 'Cancelled', time: '5 days ago', action: 'View', badgeClass: 'badge-cancelled' }
   ];
 
   return (
     <div className="dashboard-container">
-      <h2 className="mb-4">Dashboard Overview</h2>
-      
-      {/* Stats Cards */}
-      <div className="row g-4 mb-5">
+      {/* Stats Section */}
+      <div className="stats-grid mb-5">
         {stats.map((stat, i) => (
-          <div className="col-md-3" key={i}>
-            <div className="stat-card shadow-sm border-0 rounded-3 p-4 bg-white h-100">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <span className="text-muted fw-semibold small text-uppercase">{stat.label}</span>
-                <div className="stat-icon" style={{ backgroundColor: `${stat.color}15`, color: stat.color }}>
-                  <i className={`bi ${stat.icon}`}></i>
-                </div>
+          <div className="stat-card" key={i}>
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <span className="stat-label">{stat.label}</span>
+              <div className="stat-icon-wrapper" style={{ color: stat.color, backgroundColor: stat.bgColor, border: `1px solid ${stat.color}40` }}>
+                <i className={`bi ${stat.icon}`}></i>
               </div>
-              <h3 className="fw-bold mb-0">{stat.value}</h3>
-              <p className="text-success small mb-0 mt-2">
-                <i className="bi bi-arrow-up-short"></i> +5.2% from last month
-              </p>
             </div>
+            <h3 className="stat-value">{stat.value}</h3>
+            <div className="stat-line" style={{ backgroundColor: stat.color }}></div>
           </div>
         ))}
       </div>
 
-      <div className="row g-4">
-        {/* Recent Activity */}
-        <div className="col-md-6">
-          <div className="activity-card shadow-sm border-0 rounded-3 p-4 bg-white h-100">
-            <h5 className="fw-bold mb-4">Recent Activity</h5>
-            <div className="activity-list">
-              {recentActivity.map((activity, i) => (
-                <div className="activity-item d-flex gap-3 mb-4 last-no-border" key={i}>
-                  <div className="activity-indicator"></div>
-                  <div className="activity-content">
-                    <h6 className="mb-1 text-dark fw-semibold">{activity.title}</h6>
-                    <p className="mb-0 text-muted small">{activity.description}</p>
-                    <span className="text-muted smaller mt-1 d-block" style={{ fontSize: '0.75rem' }}>{activity.time}</span>
-                  </div>
-                </div>
-              ))}
+      {/* Quick Actions Section */}
+      <div className="mb-5">
+        <h5 className="section-title">Quick actions</h5>
+        <div className="quick-actions-grid">
+          {quickActions.map((action, i) => (
+            <div className="action-card" key={i}>
+              <div className="action-icon">
+                <i className={`bi ${action.icon}`}></i>
+              </div>
+              <span className="action-label">{action.label}</span>
             </div>
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Placeholder Chart Section */}
-        <div className="col-md-6">
-          <div className="chart-card shadow-sm border-0 rounded-3 p-4 bg-white h-100 d-flex flex-column align-items-center justify-content-center text-center">
-            <div className="chart-placeholder">
-              <i className="bi bi-bar-chart-line display-1 text-muted opacity-25"></i>
-              <h5 className="text-muted mt-3">Monthly Analytics</h5>
-              <p className="text-muted small">Data visualization placeholder</p>
-            </div>
-          </div>
+      {/* Recent Activity Section */}
+      <div className="recent-activity-section">
+        <h5 className="section-title">Recent Activity</h5>
+        <div className="table-responsive bg-white rounded-3 shadow-sm border-0">
+          <table className="table custom-table mb-0">
+            <thead>
+              <tr>
+                <th>Inspection ID</th>
+                <th>Property</th>
+                <th>Agent</th>
+                <th>Inspector</th>
+                <th>Status</th>
+                <th>Last Updated</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentActivity.map((activity, i) => (
+                <tr key={i}>
+                  <td className="text-secondary">{activity.id}</td>
+                  <td className="text-secondary">{activity.property}</td>
+                  <td className="text-secondary">{activity.agent}</td>
+                  <td className="text-secondary">{activity.inspector}</td>
+                  <td>
+                    <span className={`status-badge ${activity.badgeClass}`}>
+                      {activity.status}
+                    </span>
+                  </td>
+                  <td className="text-secondary">{activity.time}</td>
+                  <td>
+                    <a href="#" className="action-link">{activity.action}</a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

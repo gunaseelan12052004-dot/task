@@ -1,57 +1,217 @@
-.stat-icon {
-  width: 45px;
-  height: 45px;
+.dashboard-container {
+  padding: 1rem 0;
+  background-color: transparent;
+}
+
+/* Stats Section */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background-color: #ffffff;
   border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.stat-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 1.25rem;
 }
 
-.smaller {
-  font-size: 0.75rem;
-}
-
-.activity-indicator {
-  width: 12px;
-  height: 12px;
-  background-color: #e2e8f0;
-  border-radius: 50%;
-  margin-top: 5px;
-  flex-shrink: 0;
-}
-
-.activity-list {
-  position: relative;
-  padding-left: 20px;
-}
-
-.activity-item {
-  position: relative;
-}
-
-.activity-item::before {
-  content: '';
+.stat-line {
   position: absolute;
-  left: -20px;
-  top: 15px;
-  bottom: -25px;
-  width: 2px;
-  background-color: #f1f5f9;
+  bottom: 0px;
+  left: 1.5rem; /* Or 0 to align to bottom? In image it's centered or aligned left with padding. Let's make it start a bit right from the left edge */
+  width: 60px;
+  height: 4px;
+  border-radius: 4px;
 }
 
-.activity-item:last-child::before {
-  display: none;
+/* Specific Stat lines - we set colors inline, so we just add positioning adjustments */
+
+/* Quick Actions Section */
+.section-title {
+  color: #1e293b;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
 }
 
-.activity-content h6 {
-  margin-bottom: 2px;
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 }
 
-.chart-placeholder {
-  opacity: 0.5;
-  padding: 3rem;
-  border: 2px dashed #e2e8f0;
-  border-radius: 16px;
+.action-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-color: #cbd5e1;
+}
+
+.action-icon {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: #64748b;
+  font-size: 1.25rem;
+}
+
+.action-label {
+  color: #64748b;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Recent Activity Table */
+.custom-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.custom-table thead {
   background-color: #f8fafc;
+}
+
+.custom-table th {
+  padding: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+}
+
+.custom-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.custom-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.custom-table td {
+  padding: 1rem;
+  font-size: 0.85rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f8fafc;
+  color: #475569;
+}
+
+.custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Badges */
+.status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-pending {
+  background-color: #ffedd5;
+  color: #ea580c;
+}
+
+.badge-assigned {
+  background-color: #fff0f6; /* Pale pinkish-purple */
+  color: #7048e8; /* Indigo/purple */
+}
+
+.badge-active {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+.badge-completed {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.badge-closed {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+}
+
+.badge-cancelled {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+/* Link Actions */
+.action-link {
+  color: #3b82f6;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.action-link:hover {
+  color: #2563eb;
+}
+
+/* Specific fixes for Assigned status badge color based on image */
+.badge-assigned {
+  background-color: #eef2ff;
+  color: #6366f1;
+}
+
+.badge-active {
+  background-color: #e2e8f0; /* The image looks more gray/blue for Active */
+  color: #475569; /* Maybe a darker slate */
 }

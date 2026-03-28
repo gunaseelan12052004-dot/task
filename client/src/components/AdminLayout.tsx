@@ -27,7 +27,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user, onLogout }) =
   return (
     <div className="admin-container">
       {/* Sidebar */}
-      <aside className="admin-sidebar" style={{ backgroundColor: '#0f172a' }}>
+      <aside className="admin-sidebar">
         <div className="sidebar-header">
           <img src={solaceLogo} alt="Alphagnito Logo" className="sidebar-logo" />
           <h2 className="sidebar-brand">Alphagnito</h2>
@@ -56,27 +56,30 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user, onLogout }) =
         <header className="admin-header">
           <div className="header-search">
             <i className="bi bi-search search-icon"></i>
-            <input type="text" placeholder="Search agents" className="search-input" />
+            <input type="text" placeholder="Search agents, Inspectors etc" className="search-input" />
           </div>
 
           <div className="header-actions">
-            <button className="btn-icon">
-              <i className="bi bi-bell"></i>
+            <button className="btn-icon position-relative border-0 shadow-sm" style={{ backgroundColor: '#ffffff', borderRadius: '12px' }}>
+              <i className="bi bi-bell" style={{ color: '#10b981' }}></i>
+              <span className="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle" style={{ width: '8px', height: '8px', marginTop: '10px', marginLeft: '-12px' }}>
+                <span className="visually-hidden">New alerts</span>
+              </span>
             </button>
-            <div className="user-profile">
-              <div className="avatar-wrapper">
+            <div className="user-profile shadow-sm" style={{ backgroundColor: '#ffffff', borderRadius: '50px', padding: '0.4rem 1rem 0.4rem 0.4rem', border: '1px solid #f1f5f9' }}>
+              <div className="avatar-wrapper" style={{ border: 'none', width: '36px', height: '36px', boxShadow: 'none' }}>
                 <img 
                   src={profilePic} 
-                  alt={user?.full_name || 'User'} 
-                  className="avatar" 
+                  alt={user?.full_name || 'Dinesh Karthick'} 
+                  className="avatar rounded-circle" 
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.full_name || 'Admin')}&background=random`;
+                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.full_name || 'Dinesh Karthick')}&background=random`;
                   }}
                 />
               </div>
-              <div className="user-info d-none d-md-block">
-                <p className="user-name">{user?.full_name || 'Admin User'}</p>
-                <p className="user-role">{user?.role || 'Admin'}</p>
+              <div className="user-info d-none d-md-flex flex-column justify-content-center" style={{ gap: '0px' }}>
+                <p className="user-name mb-0" style={{ fontSize: '0.85rem', color: '#334155', fontWeight: 600 }}>{user?.full_name || 'Dinesh Karthick'}</p>
+                <p className="user-role mb-0" style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{user?.role || 'Admin'}</p>
               </div>
             </div>
             {onLogout && (
