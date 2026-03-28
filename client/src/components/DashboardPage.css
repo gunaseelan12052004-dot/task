@@ -1,0 +1,57 @@
+.stat-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+}
+
+.smaller {
+  font-size: 0.75rem;
+}
+
+.activity-indicator {
+  width: 12px;
+  height: 12px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.activity-list {
+  position: relative;
+  padding-left: 20px;
+}
+
+.activity-item {
+  position: relative;
+}
+
+.activity-item::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 15px;
+  bottom: -25px;
+  width: 2px;
+  background-color: #f1f5f9;
+}
+
+.activity-item:last-child::before {
+  display: none;
+}
+
+.activity-content h6 {
+  margin-bottom: 2px;
+}
+
+.chart-placeholder {
+  opacity: 0.5;
+  padding: 3rem;
+  border: 2px dashed #e2e8f0;
+  border-radius: 16px;
+  background-color: #f8fafc;
+}

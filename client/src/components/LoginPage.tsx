@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import solaceLogo from '../assets/solace logo.png';
 
 interface LoginPageProps {
   onLoginSuccess: (user: any) => void;
@@ -7,6 +9,7 @@ interface LoginPageProps {
 const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -38,96 +41,107 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="auth-container">
-      <div className="glass-card text-center">
-        
-        <div className="mb-4">
-          <div className="d-inline-flex justify-content-center align-items-center rounded-circle bg-primary bg-opacity-25" style={{ width: '80px', height: '80px' }}>
-            <i className="bi bi-shield-lock-fill text-primary" style={{ fontSize: '2.5rem' }}></i>
-          </div>
-        </div>
-        
-        <h2 className="auth-title">Welcome Back</h2>
-        <p className="auth-subtitle">Log in to your account to continue</p>
-        
-        {error && (
-          <div className="alert alert-danger bg-danger bg-opacity-25 border-danger text-light mb-4" role="alert">
-            <i className="bi bi-exclamation-triangle-fill me-2"></i>
-            {error}
-          </div>
-        )}
+    <div className="split-layout">
+      {/* Left Panel: Login Form */}
+      <div className="left-panel">
+        <div className="form-container">
+          <h2 className="welcome-title">Welcome to Alphagnito</h2>
+          <p className="welcome-subtitle">Sign in to your account</p>
 
-        <form onSubmit={handleLogin} className="text-start">
-          <div className="form-floating mb-3">
-            <input 
-              type="email" 
-              className="form-control" 
-              id="floatingInput" 
-              placeholder="name@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <label htmlFor="floatingInput">Email address</label>
-          </div>
-          <div className="form-floating mb-4">
-            <input 
-              type="password" 
-              className="form-control" 
-              id="floatingPassword" 
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <label htmlFor="floatingPassword">Password</label>
-          </div>
-          
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <div className="form-check">
-              <input className="form-check-input bg-transparent border-secondary" type="checkbox" value="" id="rememberMe" />
-              <label className="form-check-label text-muted" htmlFor="rememberMe">
-                Remember me
-              </label>
+          {error && (
+            <div className="alert alert-danger" role="alert" style={{ fontSize: '0.85rem', padding: '0.75rem' }}>
+              <i className="bi bi-exclamation-circle-fill me-2"></i>
+              {error}
             </div>
-            <a href="#" className="text-primary text-decoration-none fw-medium" style={{ fontSize: '0.9rem' }}>Forgot password?</a>
-          </div>
+          )}
 
-          <button 
-            type="submit" 
-            className="btn btn-gradient w-100 mb-4" 
-            disabled={loading}
-          >
-            {loading ? (
-              <><span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Authenticating...</>
-            ) : (
-              'Sign In'
-            )}
-          </button>
-        </form>
-        
-        <div className="divider">Or continue with</div>
-        
-        <div className="d-flex gap-3 justify-content-center mt-3">
-          <button className="btn social-btn flex-grow-1 py-2">
-            <i className="bi bi-google me-2"></i> Google
-          </button>
-          <button className="btn social-btn flex-grow-1 py-2">
-            <i className="bi bi-github me-2"></i> Github
-          </button>
-        </div>
-        
-        <p className="text-muted mt-4 mb-0">
-          Don't have an account? <a href="#" className="text-primary text-decoration-none fw-semibold">Register here</a>
-        </p>
+          <form onSubmit={handleLogin}>
+            
+            <div className="custom-floating-input">
+              <input 
+                type="email" 
+                id="email" 
+                placeholder="name@gmail.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <label htmlFor="email" className="custom-floating-label">Email address</label>
+            </div>
 
-        {/* Small hint for test credentials */}
-        <div className="mt-4 pt-3 border-top border-secondary opacity-50 text-muted" style={{ fontSize: '0.8rem' }}>
-          Test Credentials:<br/>
-          admin@example.com / admin123
+            <div className="custom-floating-input">
+              <input 
+                type={showPassword ? 'text' : 'password'} 
+                id="password" 
+                placeholder="1283920"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <label htmlFor="password" className="custom-floating-label">Password</label>
+              
+              <button 
+                type="button" 
+                className="password-toggle"
+                onClick={togglePasswordVisibility}
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? (
+                  <i className="bi bi-eye-slash"></i>
+                ) : (
+                  <i className="bi bi-eye"></i>
+                )}
+              </button>
+            </div>
+
+            <div className="options-row mb-5">
+              <div className="form-check d-flex align-items-center gap-2">
+                <input 
+                  className="form-check-input mt-0" 
+                  type="checkbox" 
+                  id="rememberMe" 
+                />
+                <label className="form-check-label mb-0" htmlFor="rememberMe" style={{ fontSize: '0.85rem' }}>
+                  Remember me
+                </label>
+              </div>
+              <a href="#" className="forgot-link">Forgot password?</a>
+            </div>
+
+            <button 
+              type="submit" 
+              className="btn-login mb-4" 
+              disabled={loading}
+            >
+              {loading ? (
+                <><span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Loading...</>
+              ) : (
+                'Login'
+              )}
+            </button>
+            
+            <p className="text-center text-muted" style={{ fontSize: '0.85rem' }}>
+              Don't have an account? <Link to="/register" className="text-primary text-decoration-none fw-medium">Register here</Link>
+            </p>
+            
+          </form>
         </div>
       </div>
+
+      {/* Right Panel: Logo Area */}
+      <div className="right-panel right-container-bg d-none d-lg-flex">
+        <img 
+          src={solaceLogo} 
+          alt="Solace Logo" 
+          style={{ width: '40%', maxWidth: '300px', objectFit: 'contain' }}
+        />
+      </div>
+
     </div>
   );
 };

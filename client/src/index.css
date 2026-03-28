@@ -1,207 +1,190 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --primary-color: #6366f1;
-  --secondary-color: #8b5cf6;
-  --bg-color-start: #0f172a;
-  --bg-color-end: #1e1b4b;
-  --surface-color: rgba(30, 41, 59, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glass-blur: blur(16px);
+  --navy-blue: #243572;
+  --dark-panel: #141c33;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
 }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-color-start), var(--bg-color-end));
+  background-color: #ffffff;
   color: var(--text-main);
-  background-attachment: fixed;
-  overflow-x: hidden;
 }
 
-/* Background animated blobs */
-body::before, body::after {
-  content: '';
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  filter: blur(80px);
-  z-index: -1;
-  animation: float 10s infinite ease-in-out alternate;
-}
-
-body::before {
-  background: rgba(99, 102, 241, 0.2);
-  top: -100px;
-  left: -100px;
-}
-
-body::after {
-  background: rgba(139, 92, 246, 0.2);
-  bottom: -100px;
-  right: -100px;
-  animation-delay: -5s;
-}
-
-@keyframes float {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(50px) scale(1.1); }
-}
-
-.auth-container {
+.split-layout {
   min-height: 100vh;
+  display: flex;
+}
+
+.left-panel {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 2rem;
 }
 
-.glass-card {
-  background: var(--surface-color);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
-  box-shadow: var(--glass-shadow);
-  width: 100%;
-  max-width: 480px;
-  padding: 3rem;
-  position: relative;
-  overflow: hidden;
-  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.auth-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #fff, var(--text-muted));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.auth-subtitle {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
-}
-
-.form-floating > .form-control {
-  background-color: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  border-radius: 12px;
-}
-
-.form-floating > .form-control:focus {
-  background-color: rgba(15, 23, 42, 0.8);
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
-  color: var(--text-main);
-}
-
-.form-floating > label {
-  color: var(--text-muted);
-}
-
-.form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label {
-  color: var(--text-main);
-}
-
-.btn-gradient {
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  border: none;
-  color: white;
-  border-radius: 12px;
-  padding: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.btn-gradient::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-  z-index: -1;
-  transition: opacity 0.3s ease;
-  opacity: 0;
-}
-
-.btn-gradient:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
-  color: white;
-}
-
-.btn-gradient:hover::before {
-  opacity: 1;
-}
-
-.text-glow {
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-}
-
-.divider {
+.right-panel {
+  flex: 1;
+  background: linear-gradient(145deg, #10182b 0%, #1e2a4a 100%);
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 1rem 1rem 1rem 0; /* Margin layout to create the 'floating' rounded container look */
+  border-radius: 2rem;
+}
+
+/* For mobile, hide the right panel entirely, or stack it */
+@media (max-width: 991px) {
+  .right-panel {
+    display: none;
+  }
+  .left-panel {
+    width: 100%;
+  }
+}
+
+.form-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.welcome-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
   text-align: center;
-  margin: 1.5rem 0;
+}
+
+.welcome-subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+/* Custom Floating input mimicking material design / outlined box */
+.custom-floating-input {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.custom-floating-input input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+  border-radius: 2rem; /* highly rounded borders */
+  background: transparent;
+  color: var(--text-main);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.custom-floating-input input:focus {
+  border-color: var(--navy-blue);
+  box-shadow: 0 0 0 2px rgba(36, 53, 114, 0.1);
+}
+
+.custom-floating-label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  background-color: #fff;
+  padding: 0 0.5rem;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.custom-floating-input input:focus ~ .custom-floating-label,
+.custom-floating-input input:not(:placeholder-shown) ~ .custom-floating-label {
+  top: 0;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
-.divider::before,
-.divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid var(--border-color);
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 1.25rem;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
-.divider:not(:empty)::before {
-  margin-right: .25em;
-}
-
-.divider:not(:empty)::after {
-  margin-left: .25em;
-}
-
-.social-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-color);
+.password-toggle:hover {
   color: var(--text-main);
-  border-radius: 12px;
-  transition: all 0.3s ease;
 }
 
-.social-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-main);
-  transform: translateY(-2px);
+.options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+}
+
+.form-check-input {
+  border-color: var(--border-color);
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: var(--navy-blue);
+  border-color: var(--navy-blue);
+}
+
+.form-check-label {
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: var(--navy-blue);
+  text-decoration: none;
+  font-weight: 500;
+  border: 2px solid #5a6e9a; /* matched from screenshot */
+  padding: 0.15rem 0.4rem;
+  font-size: 0.8rem;
+}
+
+.forgot-link:hover {
+  background-color: rgba(90, 110, 154, 0.1);
+}
+
+.btn-login {
+  background-color: var(--navy-blue);
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 0.85rem;
+  border-radius: 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+  background-color: #1a2552;
+  color: #fff;
+}
+
+.btn-login:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
 }
