@@ -128,6 +128,67 @@ app.delete('/api/agents/:id', async (req: Request, res: Response) => {
   }
 });
 
+// Add a new agent
+app.post('/api/agents', async (req: Request, res: Response) => {
+  const { agent_name, company_name, email, phone, properties_count, inspections_count, status } = req.body;
+
+  if (!agent_name || !company_name || !email || !phone) {
+    return res.status(400).json({ success: false, message: 'Name, company, email and phone are required' });
+  }
+
+  try {
+    const is_active = status === 'Active' ? 1 : 0;
+    const dbStatus = status ? status.toLowerCase() : 'active';
+    
+    const [result]: any = await pool.execute(
+      `INSERT INTO agents (agent_name, company_name, email, phone, properties_count, inspections_count, is_active, status, join_date)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURDATE())`,
+      [agent_name, company_name, email, phone, properties_count || 0, inspections_count || 0, is_active, dbStatus]
+    );
+    res.status(201).json({ success: true, message: 'Agent added successfully', agent_id: result.insertId });
+  } catch (error: any) {
+    console.error('Error adding agent:', error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ success: false, message: 'Agent with this email or phone already exists.' });
+    }
+    res.status(500).json({ success: false, message: 'Server error adding agent' });
+  }
+});
+
+// Update an agent
+app.put('/api/agents/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { agent_name, company_name, email, phone, properties_count, inspections_count, status } = req.body;
+
+  if (!agent_name || !company_name || !email || !phone) {
+    return res.status(400).json({ success: false, message: 'Name, company, email and phone are required' });
+  }
+
+  try {
+    const is_active = status === 'Active' ? 1 : 0;
+    const dbStatus = status ? status.toLowerCase() : 'active';
+    
+    const [result]: any = await pool.execute(
+      `UPDATE agents 
+       SET agent_name = ?, company_name = ?, email = ?, phone = ?, properties_count = ?, inspections_count = ?, is_active = ?, status = ?
+       WHERE agent_id = ?`,
+      [agent_name, company_name, email, phone, properties_count || 0, inspections_count || 0, is_active, dbStatus, id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Agent not found' });
+    }
+
+    res.json({ success: true, message: 'Agent updated successfully' });
+  } catch (error: any) {
+    console.error('Error updating agent:', error);
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ success: false, message: 'Agent with this email or phone already exists.' });
+    }
+    res.status(500).json({ success: false, message: 'Server error updating agent' });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

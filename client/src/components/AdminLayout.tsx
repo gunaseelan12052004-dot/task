@@ -11,14 +11,14 @@ interface AdminLayoutProps {
 }
 
 const SIDEBAR_ITEMS = [
-  { name: 'Dashboard', path: '/dashboard', icon: 'bi-grid' },
-  { name: 'Agents', path: '/agents', icon: 'bi-person' },
-  { name: 'Inspectors', path: '/admin/inspectors', icon: 'bi-person-badge' },
-  { name: 'Properties', path: '/admin/properties', icon: 'bi-building' },
-  { name: 'Inspections', path: '/admin/inspections', icon: 'bi-search' },
-  { name: 'Reports', path: '/admin/reports', icon: 'bi-file-text' },
-  { name: 'Audit Logs', path: '/admin/audit', icon: 'bi-journal-text' },
-  { name: 'Settings', path: '/admin/settings', icon: 'bi-gear' }
+  { name: 'Dashboard', path: '/dashboard', icon: 'bi-grid', activeIcon: 'bi-grid-fill' },
+  { name: 'Agents', path: '/agents', icon: 'bi-person', activeIcon: 'bi-person-fill' },
+  { name: 'Inspectors', path: '/admin/inspectors', icon: 'bi-person-vcard', activeIcon: 'bi-person-vcard-fill' },
+  { name: 'Properties', path: '/admin/properties', icon: 'bi-building', activeIcon: 'bi-building-fill' },
+  { name: 'Inspections', path: '/admin/inspections', icon: 'bi-people', activeIcon: 'bi-people-fill' },
+  { name: 'Reports', path: '/admin/reports', icon: 'bi-file-earmark-text', activeIcon: 'bi-file-earmark-text-fill' },
+  { name: 'Audit Logs', path: '/admin/audit', icon: 'bi-calendar2-check', activeIcon: 'bi-calendar2-check-fill' },
+  { name: 'Settings', path: '/admin/settings', icon: 'bi-gear', activeIcon: 'bi-gear-fill' }
 ];
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user, onLogout }) => {
@@ -35,17 +35,20 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, user, onLogout }) =
 
         <nav className="sidebar-nav">
           <ul className="nav-list">
-            {SIDEBAR_ITEMS.map((item) => (
+            {SIDEBAR_ITEMS.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
               <li key={item.name} className="nav-item">
                 <Link
                   to={item.path}
-                  className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+                  className={`nav-link ${isActive ? 'active' : ''}`}
                 >
-                  <i className={`bi ${item.icon} nav-icon`}></i>
+                  <i className={`bi ${isActive ? item.activeIcon : item.icon} nav-icon`}></i>
                   <span>{item.name}</span>
                 </Link>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </nav>
       </aside>

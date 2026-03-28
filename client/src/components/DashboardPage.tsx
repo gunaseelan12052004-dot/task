@@ -5,8 +5,8 @@ const DashboardPage: React.FC = () => {
   const stats = [
     { label: 'Total Clients', value: '200', icon: 'bi-graph-up', color: '#22c55e', bgColor: '#f0fdf4' },
     { label: 'Total Properties', value: '10', icon: 'bi-graph-up', color: '#22c55e', bgColor: '#f0fdf4' },
-    { label: 'Total Inspections', value: '2', icon: 'bi-graph-down', color: '#ef4444', bgColor: '#fef2f2' },
-    { label: 'Pending Inspections', value: '2', icon: 'bi-bar-chart-line', color: '#eab308', bgColor: '#fefce8' },
+    { label: 'Total Inspections', value: '2', icon: 'bi-bar-chart-line', color: '#ef4444', bgColor: '#fef2f2' },
+    { label: 'Pending Inspections', value: '2', icon: 'bi-clipboard-data', color: '#eab308', bgColor: '#fefce8' },
     { label: 'Closed Inspections', value: '10', icon: 'bi-clipboard-data', color: '#eab308', bgColor: '#fefce8' }
   ];
 
@@ -34,7 +34,7 @@ const DashboardPage: React.FC = () => {
           <div className="stat-card" key={i}>
             <div className="d-flex justify-content-between align-items-start mb-2">
               <span className="stat-label">{stat.label}</span>
-              <div className="stat-icon-wrapper" style={{ color: stat.color, backgroundColor: stat.bgColor, border: `1px solid ${stat.color}40` }}>
+              <div className="stat-icon-wrapper" style={{ color: stat.color, backgroundColor: stat.bgColor, border: `1.5px solid ${stat.color}50` }}>
                 <i className={`bi ${stat.icon}`}></i>
               </div>
             </div>
