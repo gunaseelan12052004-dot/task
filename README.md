@@ -1,132 +1,114 @@
-# React Node.js Login Application
+# Alphagnito Admin Dashboard
 
-## Project Overview and Features
-This is a full-stack web application featuring a modern, premium login page. The project is separated into a React frontend and a Node.js backend.
-Features include:
-- Premium Glassmorphism UI
-- Responsive design using Bootstrap 5
-- REST API backend for user authentication
-- MySQL Database integration for storing user credentials
+This is a full-stack React + Node.js application featuring Authentication, an Administrative Dashboard, and a fully functional Agents Management module.
 
-## Tech Stack Used
-- **Frontend**: React, TypeScript, Vite, Bootstrap 5, Bootstrap Icons, CSS (Custom Glassmorphism styling)
-- **Backend**: Node.js, Express, TypeScript, CORS, MySQL2, Dotenv
-- **Database**: MySQL
+## Features
+- **Premium UI/UX**: Pixel-perfect aesthetic styles using a modern color palette, custom glassmorphism, and responsive components.
+- **Authentication**: Secure Login and Registration system with password hashing.
+- **Admin Dashboard**: Overview widgets, quick actions, and data metrics.
+- **Agents Management**: Complete CRUD operations for real estate agents. Features include dynamic real-time status filtering, add/edit modal forms, and paginated data tables.
 
-## Step-by-step Setup and Run Instructions
+## Tech Stack
+- **Frontend**: React, TypeScript, Vite, Bootstrap 5 (CSS & Icons), Custom CSS.
+- **Backend**: Node.js, Express, TypeScript, CORS, MySQL2, Bcryptjs.
+- **Database**: MySQL.
+
+---
+
+## Step-by-Step Setup Guide
+
+Follow these exact steps to run the application on your local machine.
 
 ### Prerequisites
-- Node.js installed
-- MySQL Server installed and running
+- Extract the project folder anywhere on your computer.
+- **Node.js** installed (v16 or higher).
+- **MySQL Server** installed and running (e.g., via XAMPP, WAMP, or standalone).
 
-### 1. Database Setup
-1. Open your MySQL client and run the following command to create the database:
-   ```sql
-   CREATE DATABASE auth_db;
-   ```
-2. Execute the table creation script (see Database Schema below).
-3. Insert a test user:
-   ```sql
-   INSERT INTO users (email, password, name) VALUES ('admin@example.com', 'admin123', 'Admin User');
-   ```
+### Step 1: Database Setup (MySQL)
+First, you need to create the database and the required tables to store Users and Agents.
 
-### 2. Backend Setup
-1. Navigate to the `server` directory:
-   ```bash
-   cd server
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file in the `server` root based on the `.env.example` file and configure your database credentials.
-4. Start the backend development server:
-   ```bash
-   npm run dev
-   ```
-   (The server will start on http://localhost:3001)
+1. Open your MySQL client (e.g., MySQL Workbench, phpMyAdmin, or your terminal).
+2. Execute the following SQL commands:
 
-### 3. Frontend Setup
-1. Navigate to the `client` directory:
-   ```bash
-   cd client
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the Vite development server:
-   ```bash
-   npm run dev
-   ```
-   (The client will start on http://localhost:5173)
-
-## Database Schema / Migration Steps
-The application requires a `users` table. Run the following SQL to set up the schema:
 ```sql
+-- Create the database
+CREATE DATABASE IF NOT EXISTS uth_db;
+USE uth_db;
+
+-- Create Users table (for Login/Registration)
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
+  full_name VARCHAR(100) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
+  conform_password VARCHAR(255),
+  phone VARCHAR(20),
+  role VARCHAR(50) DEFAULT 'user',
+  is_active BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create Agents table (for the Dashboard page)
+CREATE TABLE agents (
+    agent_id INT PRIMARY KEY AUTO_INCREMENT,
+    agent_name VARCHAR(100) NOT NULL,
+    company_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(15) UNIQUE,
+    properties_count INT DEFAULT 0,
+    inspections_count INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    status ENUM('active', 'inactive', 'suspended') DEFAULT 'active',
+    join_date DATE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
-## API Endpoint Documentation
+### Step 2: Backend Setup (Server)
+1. Open a terminal (Command Prompt, PowerShell, or VS Code terminal).
+2. Navigate into the `server` directory:
+   ```bash
+   cd server
+   ```
+3. Install the required Node.js dependencies:
+   ```bash
+   npm install
+   ```
+4. Configure your environment variables. Create a file named `.env` inside the `server` folder, and enter your exact MySQL credentials:
+   ```env
+   PORT=3001
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=your_mysql_password  # Leave this blank if your local root uses no password
+   DB_NAME=uth_db
+   ```
+5. Start the backend server:
+   ```bash
+   npm run dev
+   ```
+   *(You should see a message saying "Server is running on http://localhost:3001")*
 
-### Base URL: `http://localhost:3001`
+### Step 3: Frontend Setup (Client)
+1. Open a **new, separate terminal window** (do not close the backend server terminal).
+2. Navigate into the `client` directory:
+   ```bash
+   cd client
+   ```
+3. Install the essential React dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the Frontend Vite development server:
+   ```bash
+   npm run dev
+   ```
+   *(You should see an output with a local URL, typically `http://localhost:5173`. Hold CTRL and click the link to open it in your browser.)*
 
-### 1. Health Check
-- **Route**: `/api/health`
-- **Method**: `GET`
-- **Description**: Verifies if the backend is running.
-- **Request**: None
-- **Response**: 
-  ```json
-  {
-    "status": "ok",
-    "message": "Backend is running"
-  }
-  ```
+---
 
-### 2. User Login
-- **Route**: `/api/login`
-- **Method**: `POST`
-- **Description**: Authenticates a user with email and password.
-- **Request Body**:
-  ```json
-  {
-    "email": "user@example.com",
-    "password": "yourpassword"
-  }
-  ```
-- **Response (Success)**:
-  ```json
-  {
-    "success": true,
-    "message": "Login successful",
-    "user": {
-      "id": 1,
-      "email": "user@example.com",
-      "name": "User Name"
-    }
-  }
-  ```
-- **Response (Error)**:
-  ```json
-  {
-    "success": false,
-    "message": "Invalid email or password"
-  }
-  ```
-
-## Environment Variable Reference
-See `server/.env.example` for the required environment variables:
-```
-PORT=3001
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=auth_db
-```
+## Usage Instructions
+1. When the app opens in your browser, click **Sign Up** to create a new user account.
+2. Enter your details and submit. 
+3. **Log In** with the email and password you just created.
+4. You will be redirected to the secure **Admin Dashboard**.
+5. Use the sidebar to navigate to the **Agents** tab where you can Add, Edit, and Delete real data that connects straight to your MySQL backend!
